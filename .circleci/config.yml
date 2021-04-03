@@ -13,9 +13,9 @@ jobs:
       #     only_on_fail: false
       #     webhook_url: $MS_TEAMS_WEBHOOK_URL
       - run:
-        name: fail_step
-        command: |
-          return 1
+          name: fail_step
+          command: |
+            return 1
       - slack/notify:
           channel: '#project'
           custom: |
