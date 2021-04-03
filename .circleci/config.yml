@@ -1,0 +1,40 @@
+version: '2.1'
+
+orbs:
+  slack: circleci/slack@4.3.3
+  ms-teams: cloudradar-monitoring/ms-teams@0.0.1
+
+jobs:
+  notify:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      # - ms-teams/report:
+      #     only_on_fail: false
+      #     webhook_url: $MS_TEAMS_WEBHOOK_URL
+      - run:
+          name: fail_step
+          command: |
+            return 1
+      - slack/notify:
+          channel: '#project'
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "*This is a text notification*",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
+          event: fail
+workflows:
+  send-notification:
+    jobs:
+      - notify
